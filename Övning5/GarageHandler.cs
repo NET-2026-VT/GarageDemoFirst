@@ -11,7 +11,7 @@ namespace Övning5
     {
         private Garage<IVehicle> thisGarage;
 
-        private IQueryable<IVehicle> query;
+        private IEnumerable<IVehicle> query;
         public void InitGarage()
         {
             thisGarage.Add(new Boat("ABC123", "Red", 3, 27));
@@ -67,18 +67,19 @@ namespace Övning5
             thisGarage = new Garage<IVehicle>(capacity);
         }
 
-        public List<IVehicle> NrOfType(string type)
+        public int NrOfType(string type)
         {
-            List<IVehicle> output = new List<IVehicle>();
-            foreach(var vehicle in thisGarage)
-            {
-                string currType = vehicle.GetType().ToString().Split('.').Last();
-                if (currType == type)
-                {
-                    output.Add(vehicle);
-                }
-            }
-            return output;
+            return thisGarage.Where(v => v.GetType().Name == type).Count();
+            //List<IVehicle> output = new List<IVehicle>();
+            //foreach(var vehicle in thisGarage)
+            //{
+            //    string currType = vehicle.GetType().ToString().Split('.').Last();
+            //    if (currType == type)
+            //    {
+            //        output.Add(vehicle);
+            //    }
+            //}
+            //return output;
         }
 
         public bool IsFull()
@@ -88,8 +89,15 @@ namespace Övning5
 
         public void InitFilter()
         {
-            query = thisGarage.GetQuery();
+            query = thisGarage;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeQ"></param>
+        /// <param name="typeS"></param>
+        /// <param name="typeI"></param>
         public void Filter(string typeQ, string typeS, int typeI)
         {
             if(query == null)
@@ -113,12 +121,8 @@ namespace Övning5
             }
         }
 
-        public List<IVehicle> PrintFilter()
-        {
-            List<IVehicle> lista = query.ToList<IVehicle>();
+        public List<IVehicle> PrintFilter() => query.ToList();
 
-            return lista;
-        }
 
     }
 }

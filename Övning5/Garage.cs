@@ -44,7 +44,7 @@ namespace Övning5
 
         public bool Add(T input)
         {
-            if (IsFull && spaces.Any(v => v != null && v.RegNr.Equals(input.RegNr, StringComparison.InvariantCultureIgnoreCase)))
+            if (IsFull || spaces.Any(v => v != null && v.RegNr.Equals(input.RegNr, StringComparison.InvariantCultureIgnoreCase)))
             {
                 return false;
             }
